@@ -2,10 +2,19 @@
 Cointrol production settings that extend the defaults ones.
 
 """
+import os
+
 from .settings_defaults import *
 
 
 DEBUG = False
+SECRET_KEY = 'asdf*&*JIOndsfHKhljdsaf778'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'cointrol.sqlite3'),
+    }
+}
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -36,6 +45,5 @@ LOGGING = {
         }
     }
 }
-
 
 COINTROL_DO_TRADE = True

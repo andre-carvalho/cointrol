@@ -1,7 +1,7 @@
 {
     "name": "cointrol",
-    "description": "Description",
-    "author": "Your Name",
+    "description": "Webapp to make trade using bitcointoyou API",
+    "author": "André Carvalho",
     "version": "0.0.1",
     "repository": {
         "type": "git",
@@ -18,7 +18,7 @@
         "uglify-js-brunch": ">= 1.0 < 1.8",
         "clean-css-brunch": ">= 1.0 < 1.8",
         "handlebars-brunch": "1.10.1",
-        "coffee-script-brunch": ">= 1.0 < 1.8",
+        "coffeescript-brunch": ">= 1.0 < 1.8",
         "sass-brunch": "1.7.0"
     }
 }

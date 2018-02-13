@@ -64,3 +64,4 @@ TEMPLATES = [
         },
     },
 ]
+ALLOWED_HOSTS = ['172.17.0.2']

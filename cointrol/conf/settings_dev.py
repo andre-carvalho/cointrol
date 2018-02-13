@@ -8,7 +8,7 @@ from .settings_defaults import *
 
 
 DEBUG = True
-SECRET_KEY = 'asdf*&*hifdasfHKhljdsaf778'
+SECRET_KEY = 'asdf*&*JIOndsfHKhljdsaf778'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
