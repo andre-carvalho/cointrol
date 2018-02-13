@@ -7,4 +7,5 @@ tmp/
 node_modules/
 public/
 bower_components/
+cointrol/libbitcointoyou/
 settings_local.py
