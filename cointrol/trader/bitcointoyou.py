@@ -81,62 +81,57 @@ class Model(dict):
     def __getattr__(self, k):
         return self[k]
 
+class ResponseStatus(Model):
+    schema = {
+        'success': Decimal,
+        'oReturn': str,
+        'date': parse_timestamp,
+        'timestamp': parse_timestamp
+    }
 
 class Ticker(Model):
-    schema = {
-        'vwap': Decimal,
-        'last': Decimal,
+    scheme = {
         'high': Decimal,
         'low': Decimal,
-        'bid': Decimal,
-        'ask': Decimal,
-        'volume': Decimal,
-        'timestamp': parse_timestamp,
-        'open': Decimal,
+        'vol': Decimal,
+        'last': Decimal,
+        'buy': Decimal,
+        'sell': Decimal,
+        'date': parse_timestamp,
     }
 
 
 class Order(Model):
     schema = {
-        'id': int,
+        'asset': str,
+        'currency': str,
+        'id': Decimal,
+        'action': str,
+        'status': str,
         'price': Decimal,
         'amount': Decimal,
-        'type': int,
-        'datetime': parse_datetime,
+        'executedPriceAverage': Decimal,
+        'executedAmount': Decimal,
+        'dateCreated': parse_timestamp
     }
 
 
 class Transaction(Model):
     schema = {
-        'id': int,
-        'datetime': parse_datetime,
+        'tid': int,
+        'date': parse_datetime,
         'type': int,
-        'fee': Decimal,
-        'usd': Decimal,
-        'btc': Decimal,
-        'btc_usd': Decimal,
-        'order_id': maybe(int),
+        'price': Decimal,
+        'currency': str,
+        'amount': Decimal,
     }
 
 
 class Balance(Model):
     schema = {
-        'fee': Decimal,
-        'usd_balance': Decimal,
-        'btc_balance': Decimal,
-        'usd_reserved': Decimal,
-        'btc_reserved': Decimal,
-        'btc_available': Decimal,
-        'usd_available': Decimal,
-
-        'eur_balance': Decimal,
-        'xrp_balance': Decimal,
-        'eur_reserved': Decimal,
-        'xrp_reserved': Decimal,
-        'eur_available': Decimal,
-        'xrp_available': Decimal,
+        'BRL': Decimal,
+        'BTC': Decimal,
     }
-
 
 class BitcointoyouError(Exception):
     pass
@@ -180,16 +175,16 @@ class BitcointoyouClient:
         self._nonce += 1
         return params
 
-""" Unused for bitcointoyou """
-"""
-    def _get(self, path, callback=None, params=None, model_class=None):
-        if params:
-            path += '?' + urlencode(params)
-        return self._request('GET',
-                             path=path,
-                             callback=callback,
-                             model_class=model_class)
-"""
+    """ Unused for bitcointoyou """
+    """
+        def _get(self, path, callback=None, params=None, model_class=None):
+            if params:
+                path += '?' + urlencode(params)
+            return self._request('GET',
+                                path=path,
+                                callback=callback,
+                                model_class=model_class)
+    """
     def _post(self, path, callback=None, params=None, model_class=None):
         params = params or {}
         params.update(self._get_auth_params())
@@ -288,9 +283,11 @@ class BitcointoyouClient:
 
     def transactions(self, timedelta_secs=86400, callback=None):
         """Return transactions for the last 'timedelta' seconds."""
-        return self._post('/transactions/',
+        timedelta = datetime.datetime.utcnow() + datetime.timedelta(timedelta_secs)
+        return self._post('/trades.aspx',
                          params={
-                             'timedelta': timedelta_secs
+                             'timestamp': timedelta,
+                             'currency': 'BTC'
                          },
                          callback=callback, model_class=Transaction)
 
